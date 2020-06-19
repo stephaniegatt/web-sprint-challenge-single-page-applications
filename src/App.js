@@ -25,9 +25,12 @@ const initialFormErrors = {
 }
 
 export default function App() {
+  const [orders, setOrders] = useState([])
   const [formValues, setFormValues] = useState(initialFormValues)
   const [disabled, setDisabled] = useState(false)
   const [formErrors, setFormErrors] = useState(initialFormErrors)
+
+   
 
   const onInputChange = event => {
     const { name, value } = event.target
@@ -59,7 +62,7 @@ export default function App() {
     setFormValues({
       ...formValues,
       toppings: {
-        ...formValues.languages,
+        ...formValues.toppings,
         [name]: checked,
       }
     })
@@ -67,6 +70,14 @@ export default function App() {
 
   const onSubmit = event => {
     event.preventDefault()
+
+    const newOrder = {
+      size: formValues.size.trim(),
+      instructions: formValues.instructions.trim(),
+      name: formValues.name.trim(),
+      toppings: Object.keys(formValues.toppings).filter(topping => formValues.toppings[topping] === true)
+    }
+    setOrders([...orders, newOrder])
   }
 
   useEffect(() => {
@@ -87,6 +98,18 @@ export default function App() {
              disabled={disabled}
              errors={formErrors}
           />
+          {
+          orders.map((order, i) => {
+            return (
+              <div key={i}>
+                <h3>{order.name}</h3>
+                <p>{order.size}</p>
+                <p>{order.instructions}</p>
+                <p>{order.toppings.join(", ")}</p>
+              </div>
+              )
+            })
+          }
         </Route>
         <Route path="/">
           <Home />

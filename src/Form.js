@@ -80,7 +80,8 @@ export default function Form(props) {
             <label>Special Instructions:&nbsp;
                     <textarea
                         value={values.instructions}
-                        name="name"
+                        name="instructions"
+                        type="text"
                         onChange={onInputChange}
                     />
                 </label>
